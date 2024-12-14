@@ -25,9 +25,25 @@ import Identety from 'identety';
 const client = new Identety();
 
 async function main() {
-  const client = await client.clients.create({ name: 'name', type: 'public' });
+  const user = await client.users.create({
+    address: {
+      country: 'USA',
+      locality: 'New York',
+      postalCode: '10001',
+      region: 'NY',
+      streetAddress: '123 Main St',
+    },
+    email: 'john@example.com',
+    familyName: 'Doe',
+    givenName: 'John',
+    locale: 'en-US',
+    metadata: { customField: 'value' },
+    name: 'John Doe',
+    password: 'password123',
+    picture: 'https://example.com/photo.jpg',
+  });
 
-  console.log(client.id);
+  console.log(user.id);
 }
 
 main();
@@ -44,8 +60,24 @@ import Identety from 'identety';
 const client = new Identety();
 
 async function main() {
-  const params: Identety.ClientCreateParams = { name: 'name', type: 'public' };
-  const client: Identety.Client = await client.clients.create(params);
+  const params: Identety.UserCreateParams = {
+    address: {
+      country: 'USA',
+      locality: 'New York',
+      postalCode: '10001',
+      region: 'NY',
+      streetAddress: '123 Main St',
+    },
+    email: 'john@example.com',
+    familyName: 'Doe',
+    givenName: 'John',
+    locale: 'en-US',
+    metadata: { customField: 'value' },
+    name: 'John Doe',
+    password: 'password123',
+    picture: 'https://example.com/photo.jpg',
+  };
+  const user: Identety.User = await client.users.create(params);
 }
 
 main();
@@ -62,15 +94,33 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const client = await client.clients.create({ name: 'name', type: 'public' }).catch(async (err) => {
-    if (err instanceof Identety.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
+  const user = await client.users
+    .create({
+      address: {
+        country: 'USA',
+        locality: 'New York',
+        postalCode: '10001',
+        region: 'NY',
+        streetAddress: '123 Main St',
+      },
+      email: 'john@example.com',
+      familyName: 'Doe',
+      givenName: 'John',
+      locale: 'en-US',
+      metadata: { customField: 'value' },
+      name: 'John Doe',
+      password: 'password123',
+      picture: 'https://example.com/photo.jpg',
+    })
+    .catch(async (err) => {
+      if (err instanceof Identety.APIError) {
+        console.log(err.status); // 400
+        console.log(err.name); // BadRequestError
+        console.log(err.headers); // {server: 'nginx', ...}
+      } else {
+        throw err;
+      }
+    });
 }
 
 main();
@@ -105,7 +155,7 @@ const client = new Identety({
 });
 
 // Or, configure per-request:
-await client.clients.create({ name: 'name', type: 'public' }, {
+await client.users.create({ address: { country: 'USA', locality: 'New York', postalCode: '10001', region: 'NY', streetAddress: '123 Main St' }, email: 'john@example.com', familyName: 'Doe', givenName: 'John', locale: 'en-US', metadata: { customField: 'value' }, name: 'John Doe', password: 'password123', picture: 'https://example.com/photo.jpg' }, {
   maxRetries: 5,
 });
 ```
@@ -122,7 +172,7 @@ const client = new Identety({
 });
 
 // Override per-request:
-await client.clients.create({ name: 'name', type: 'public' }, {
+await client.users.create({ address: { country: 'USA', locality: 'New York', postalCode: '10001', region: 'NY', streetAddress: '123 Main St' }, email: 'john@example.com', familyName: 'Doe', givenName: 'John', locale: 'en-US', metadata: { customField: 'value' }, name: 'John Doe', password: 'password123', picture: 'https://example.com/photo.jpg' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -143,15 +193,49 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Identety();
 
-const response = await client.clients.create({ name: 'name', type: 'public' }).asResponse();
+const response = await client.users
+  .create({
+    address: {
+      country: 'USA',
+      locality: 'New York',
+      postalCode: '10001',
+      region: 'NY',
+      streetAddress: '123 Main St',
+    },
+    email: 'john@example.com',
+    familyName: 'Doe',
+    givenName: 'John',
+    locale: 'en-US',
+    metadata: { customField: 'value' },
+    name: 'John Doe',
+    password: 'password123',
+    picture: 'https://example.com/photo.jpg',
+  })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: client, response: raw } = await client.clients
-  .create({ name: 'name', type: 'public' })
+const { data: user, response: raw } = await client.users
+  .create({
+    address: {
+      country: 'USA',
+      locality: 'New York',
+      postalCode: '10001',
+      region: 'NY',
+      streetAddress: '123 Main St',
+    },
+    email: 'john@example.com',
+    familyName: 'Doe',
+    givenName: 'John',
+    locale: 'en-US',
+    metadata: { customField: 'value' },
+    name: 'John Doe',
+    password: 'password123',
+    picture: 'https://example.com/photo.jpg',
+  })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(client.id);
+console.log(user.id);
 ```
 
 ### Making custom/undocumented requests
@@ -255,8 +339,24 @@ const client = new Identety({
 });
 
 // Override per-request:
-await client.clients.create(
-  { name: 'name', type: 'public' },
+await client.users.create(
+  {
+    address: {
+      country: 'USA',
+      locality: 'New York',
+      postalCode: '10001',
+      region: 'NY',
+      streetAddress: '123 Main St',
+    },
+    email: 'john@example.com',
+    familyName: 'Doe',
+    givenName: 'John',
+    locale: 'en-US',
+    metadata: { customField: 'value' },
+    name: 'John Doe',
+    password: 'password123',
+    picture: 'https://example.com/photo.jpg',
+  },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },
