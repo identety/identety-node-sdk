@@ -5,7 +5,6 @@ import * as Core from './core';
 import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { App } from './resources/app';
 import {
   Client,
   ClientCreateParams,
@@ -27,7 +26,7 @@ import {
 
 export interface ClientOptions {
   /**
-   * API key used for authentication
+   * API Key required for authentication
    */
   apiKey?: string | undefined;
 
@@ -138,7 +137,6 @@ export class Identety extends Core.APIClient {
     this.apiKey = apiKey;
   }
 
-  app: API.App = new API.App(this);
   clients: API.Clients = new API.Clients(this);
   users: API.Users = new API.Users(this);
   orgs: API.Orgs = new API.Orgs(this);
@@ -180,15 +178,12 @@ export class Identety extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-Identety.App = App;
 Identety.Clients = Clients;
 Identety.Users = Users;
 Identety.Orgs = Orgs;
 Identety.Roles = Roles;
 export declare namespace Identety {
   export type RequestOptions = Core.RequestOptions;
-
-  export { App as App };
 
   export {
     Clients as Clients,

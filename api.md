@@ -1,9 +1,3 @@
-# App
-
-Methods:
-
-- <code title="get /">client.app.<a href="./src/resources/app.ts">retrieve</a>() -> void</code>
-
 # Clients
 
 Types:
