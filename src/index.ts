@@ -20,7 +20,7 @@ import { UserCreateParams, Users } from './resources/users';
 
 export interface ClientOptions {
   /**
-   * The API key to authenticate requests
+   * API key used for authenticating requests.
    */
   apiKey?: string | undefined;
 
