@@ -8,9 +8,9 @@ const client = new Identety({
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
-describe('resource apps', () => {
+describe('resource app', () => {
   test('retrieve', async () => {
-    const responsePromise = client.apps.retrieve();
+    const responsePromise = client.app.retrieve();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,7 +22,7 @@ describe('resource apps', () => {
 
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.apps.retrieve({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+    await expect(client.app.retrieve({ path: '/_stainless_unknown_path' })).rejects.toThrow(
       Identety.NotFoundError,
     );
   });

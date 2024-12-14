@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Apps } from './apps';
+export { App } from './app';
 export {
   Clients,
   type Client,
@@ -11,4 +11,11 @@ export {
 } from './clients';
 export { Orgs } from './orgs';
 export { Roles } from './roles';
-export { Users, type UserCreateParams } from './users';
+export {
+  Users,
+  type User,
+  type UserListResponse,
+  type UserCreateParams,
+  type UserUpdateParams,
+  type UserListParams,
+} from './users';

@@ -11,8 +11,11 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 ## Installation
 
 ```sh
-npm install identety
+npm install git+ssh://git@github.com:stainless-sdks/identety-node.git
 ```
+
+> [!NOTE]
+> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install identety`
 
 ## Usage
 
@@ -214,7 +217,7 @@ import Identety from 'identety';
 ```
 
 To do the inverse, add `import "identety/shims/node"` (which does import polyfills).
-This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/identety/identety-node-sdk/tree/main/src/_shims#readme)).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/stainless-sdks/identety-node/tree/main/src/_shims#readme)).
 
 ### Logging and middleware
 
@@ -273,7 +276,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/identety/identety-node-sdk/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/identety-node/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 

@@ -5,7 +5,7 @@ import * as Core from './core';
 import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { Apps } from './resources/apps';
+import { App } from './resources/app';
 import {
   Client,
   ClientCreateParams,
@@ -16,11 +16,18 @@ import {
 } from './resources/clients';
 import { Orgs } from './resources/orgs';
 import { Roles } from './resources/roles';
-import { UserCreateParams, Users } from './resources/users';
+import {
+  User,
+  UserCreateParams,
+  UserListParams,
+  UserListResponse,
+  UserUpdateParams,
+  Users,
+} from './resources/users';
 
 export interface ClientOptions {
   /**
-   * API key used for authenticating requests.
+   * API key used for authentication
    */
   apiKey?: string | undefined;
 
@@ -131,7 +138,7 @@ export class Identety extends Core.APIClient {
     this.apiKey = apiKey;
   }
 
-  apps: API.Apps = new API.Apps(this);
+  app: API.App = new API.App(this);
   clients: API.Clients = new API.Clients(this);
   users: API.Users = new API.Users(this);
   orgs: API.Orgs = new API.Orgs(this);
@@ -173,7 +180,7 @@ export class Identety extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-Identety.Apps = Apps;
+Identety.App = App;
 Identety.Clients = Clients;
 Identety.Users = Users;
 Identety.Orgs = Orgs;
@@ -181,7 +188,7 @@ Identety.Roles = Roles;
 export declare namespace Identety {
   export type RequestOptions = Core.RequestOptions;
 
-  export { Apps as Apps };
+  export { App as App };
 
   export {
     Clients as Clients,
@@ -192,7 +199,14 @@ export declare namespace Identety {
     type ClientListParams as ClientListParams,
   };
 
-  export { Users as Users, type UserCreateParams as UserCreateParams };
+  export {
+    Users as Users,
+    type User as User,
+    type UserListResponse as UserListResponse,
+    type UserCreateParams as UserCreateParams,
+    type UserUpdateParams as UserUpdateParams,
+    type UserListParams as UserListParams,
+  };
 
   export { Orgs as Orgs };
 
