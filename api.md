@@ -21,9 +21,18 @@ Methods:
 
 # Users
 
+Types:
+
+- <code><a href="./src/resources/users.ts">User</a></code>
+- <code><a href="./src/resources/users.ts">UserListResponse</a></code>
+
 Methods:
 
-- <code title="post /users">client.users.<a href="./src/resources/users.ts">create</a>({ ...params }) -> void</code>
+- <code title="post /users">client.users.<a href="./src/resources/users.ts">create</a>({ ...params }) -> User</code>
+- <code title="get /users/{id}">client.users.<a href="./src/resources/users.ts">retrieve</a>(id) -> User</code>
+- <code title="put /users/{id}">client.users.<a href="./src/resources/users.ts">update</a>(id, { ...params }) -> User</code>
+- <code title="get /users">client.users.<a href="./src/resources/users.ts">list</a>({ ...params }) -> UserListResponse</code>
+- <code title="delete /users/{id}">client.users.<a href="./src/resources/users.ts">delete</a>(id) -> User</code>
 
 # Orgs
 
