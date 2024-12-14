@@ -3,7 +3,7 @@
 import { APIResource } from '../resource';
 import * as Core from '../core';
 
-export class Apps extends APIResource {
+export class App extends APIResource {
   retrieve(options?: Core.RequestOptions): Core.APIPromise<void> {
     return this._client.get('/', { ...options, headers: { Accept: '*/*', ...options?.headers } });
   }
