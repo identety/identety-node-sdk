@@ -11,4 +11,11 @@ export {
 } from './clients';
 export { Orgs } from './orgs';
 export { Roles } from './roles';
-export { Users, type UserCreateParams } from './users';
+export {
+  Users,
+  type User,
+  type UserListResponse,
+  type UserCreateParams,
+  type UserUpdateParams,
+  type UserListParams,
+} from './users';

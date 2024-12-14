@@ -5,7 +5,7 @@ import * as Core from '../core';
 
 export class Clients extends APIResource {
   /**
-   * Create new client
+   * Create client
    */
   create(body: ClientCreateParams, options?: Core.RequestOptions): Core.APIPromise<Client> {
     return this._client.post('/clients', { body, ...options });
