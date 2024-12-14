@@ -16,7 +16,14 @@ import {
 } from './resources/clients';
 import { Orgs } from './resources/orgs';
 import { Roles } from './resources/roles';
-import { UserCreateParams, Users } from './resources/users';
+import {
+  User,
+  UserCreateParams,
+  UserListParams,
+  UserListResponse,
+  UserUpdateParams,
+  Users,
+} from './resources/users';
 
 export interface ClientOptions {
   /**
@@ -192,7 +199,14 @@ export declare namespace Identety {
     type ClientListParams as ClientListParams,
   };
 
-  export { Users as Users, type UserCreateParams as UserCreateParams };
+  export {
+    Users as Users,
+    type User as User,
+    type UserListResponse as UserListResponse,
+    type UserCreateParams as UserCreateParams,
+    type UserUpdateParams as UserUpdateParams,
+    type UserListParams as UserListParams,
+  };
 
   export { Orgs as Orgs };
 
