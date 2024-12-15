@@ -11,8 +11,11 @@ It is generated with [Stainless](https://www.stainlessapi.com/).
 ## Installation
 
 ```sh
-npm install identety
+npm install git+ssh://git@github.com:stainless-sdks/identety-node.git
 ```
+
+> [!NOTE]
+> Once this package is [published to npm](https://app.stainlessapi.com/docs/guides/publish), this will become: `npm install identety`
 
 ## Usage
 
@@ -25,25 +28,9 @@ import Identety from 'identety';
 const client = new Identety();
 
 async function main() {
-  const user = await client.users.create({
-    address: {
-      country: 'USA',
-      locality: 'New York',
-      postalCode: '10001',
-      region: 'NY',
-      streetAddress: '123 Main St',
-    },
-    email: 'john@example.com',
-    familyName: 'Doe',
-    givenName: 'John',
-    locale: 'en-US',
-    metadata: { customField: 'value' },
-    name: 'John Doe',
-    password: 'password123',
-    picture: 'https://example.com/photo.jpg',
-  });
+  const client = await client.clients.create({ name: 'name', type: 'public' });
 
-  console.log(user.id);
+  console.log(client.id);
 }
 
 main();
@@ -60,24 +47,8 @@ import Identety from 'identety';
 const client = new Identety();
 
 async function main() {
-  const params: Identety.UserCreateParams = {
-    address: {
-      country: 'USA',
-      locality: 'New York',
-      postalCode: '10001',
-      region: 'NY',
-      streetAddress: '123 Main St',
-    },
-    email: 'john@example.com',
-    familyName: 'Doe',
-    givenName: 'John',
-    locale: 'en-US',
-    metadata: { customField: 'value' },
-    name: 'John Doe',
-    password: 'password123',
-    picture: 'https://example.com/photo.jpg',
-  };
-  const user: Identety.User = await client.users.create(params);
+  const params: Identety.ClientCreateParams = { name: 'name', type: 'public' };
+  const client: Identety.Client = await client.clients.create(params);
 }
 
 main();
@@ -94,33 +65,15 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const user = await client.users
-    .create({
-      address: {
-        country: 'USA',
-        locality: 'New York',
-        postalCode: '10001',
-        region: 'NY',
-        streetAddress: '123 Main St',
-      },
-      email: 'john@example.com',
-      familyName: 'Doe',
-      givenName: 'John',
-      locale: 'en-US',
-      metadata: { customField: 'value' },
-      name: 'John Doe',
-      password: 'password123',
-      picture: 'https://example.com/photo.jpg',
-    })
-    .catch(async (err) => {
-      if (err instanceof Identety.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
+  const client = await client.clients.create({ name: 'name', type: 'public' }).catch(async (err) => {
+    if (err instanceof Identety.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 }
 
 main();
@@ -155,7 +108,7 @@ const client = new Identety({
 });
 
 // Or, configure per-request:
-await client.users.create({ address: { country: 'USA', locality: 'New York', postalCode: '10001', region: 'NY', streetAddress: '123 Main St' }, email: 'john@example.com', familyName: 'Doe', givenName: 'John', locale: 'en-US', metadata: { customField: 'value' }, name: 'John Doe', password: 'password123', picture: 'https://example.com/photo.jpg' }, {
+await client.clients.create({ name: 'name', type: 'public' }, {
   maxRetries: 5,
 });
 ```
@@ -172,7 +125,7 @@ const client = new Identety({
 });
 
 // Override per-request:
-await client.users.create({ address: { country: 'USA', locality: 'New York', postalCode: '10001', region: 'NY', streetAddress: '123 Main St' }, email: 'john@example.com', familyName: 'Doe', givenName: 'John', locale: 'en-US', metadata: { customField: 'value' }, name: 'John Doe', password: 'password123', picture: 'https://example.com/photo.jpg' }, {
+await client.clients.create({ name: 'name', type: 'public' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -193,49 +146,15 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Identety();
 
-const response = await client.users
-  .create({
-    address: {
-      country: 'USA',
-      locality: 'New York',
-      postalCode: '10001',
-      region: 'NY',
-      streetAddress: '123 Main St',
-    },
-    email: 'john@example.com',
-    familyName: 'Doe',
-    givenName: 'John',
-    locale: 'en-US',
-    metadata: { customField: 'value' },
-    name: 'John Doe',
-    password: 'password123',
-    picture: 'https://example.com/photo.jpg',
-  })
-  .asResponse();
+const response = await client.clients.create({ name: 'name', type: 'public' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: user, response: raw } = await client.users
-  .create({
-    address: {
-      country: 'USA',
-      locality: 'New York',
-      postalCode: '10001',
-      region: 'NY',
-      streetAddress: '123 Main St',
-    },
-    email: 'john@example.com',
-    familyName: 'Doe',
-    givenName: 'John',
-    locale: 'en-US',
-    metadata: { customField: 'value' },
-    name: 'John Doe',
-    password: 'password123',
-    picture: 'https://example.com/photo.jpg',
-  })
+const { data: client, response: raw } = await client.clients
+  .create({ name: 'name', type: 'public' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(user.id);
+console.log(client.id);
 ```
 
 ### Making custom/undocumented requests
@@ -298,7 +217,7 @@ import Identety from 'identety';
 ```
 
 To do the inverse, add `import "identety/shims/node"` (which does import polyfills).
-This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/identety/identety-node-sdk/tree/main/src/_shims#readme)).
+This can also be useful if you are getting the wrong TypeScript types for `Response` ([more details](https://github.com/stainless-sdks/identety-node/tree/main/src/_shims#readme)).
 
 ### Logging and middleware
 
@@ -339,24 +258,8 @@ const client = new Identety({
 });
 
 // Override per-request:
-await client.users.create(
-  {
-    address: {
-      country: 'USA',
-      locality: 'New York',
-      postalCode: '10001',
-      region: 'NY',
-      streetAddress: '123 Main St',
-    },
-    email: 'john@example.com',
-    familyName: 'Doe',
-    givenName: 'John',
-    locale: 'en-US',
-    metadata: { customField: 'value' },
-    name: 'John Doe',
-    password: 'password123',
-    picture: 'https://example.com/photo.jpg',
-  },
+await client.clients.create(
+  { name: 'name', type: 'public' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },
@@ -373,7 +276,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/identety/identety-node-sdk/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/identety-node/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
