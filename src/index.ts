@@ -26,8 +26,6 @@ import {
 } from './resources/users';
 
 export interface ClientOptions {
-  apiKey: string;
-
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
@@ -64,7 +62,7 @@ export interface ClientOptions {
    * The maximum number of times that the client will retry a request in case of a
    * temporary failure, like a network error or a 5XX error from the server.
    *
-   * @default 10
+   * @default 2
    */
   maxRetries?: number;
 
@@ -89,31 +87,21 @@ export interface ClientOptions {
  * API Client for interfacing with the Identety API.
  */
 export class Identety extends Core.APIClient {
-  apiKey: string;
-
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Identety API.
    *
-   * @param {string} opts.apiKey
    * @param {string} [opts.baseURL=process.env['IDENTETY_BASE_URL']] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
    * @param {Core.Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
-   * @param {number} [opts.maxRetries=10] - The maximum number of times the client will retry a request.
+   * @param {number} [opts.maxRetries=2] - The maximum number of times the client will retry a request.
    * @param {Core.Headers} opts.defaultHeaders - Default headers to include with every request to the API.
    * @param {Core.DefaultQuery} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
-  constructor({ baseURL = Core.readEnv('IDENTETY_BASE_URL'), apiKey, ...opts }: ClientOptions) {
-    if (apiKey === undefined) {
-      throw new Errors.IdentetyError(
-        "Missing required client option apiKey; you need to instantiate the Identety client with an apiKey option, like new Identety({ apiKey: 'My API Key' }).",
-      );
-    }
-
+  constructor({ baseURL = Core.readEnv('IDENTETY_BASE_URL'), ...opts }: ClientOptions = {}) {
     const options: ClientOptions = {
-      apiKey,
       ...opts,
       baseURL,
     };
@@ -133,8 +121,6 @@ export class Identety extends Core.APIClient {
     });
 
     this._options = options;
-
-    this.apiKey = apiKey;
   }
 
   app: API.App = new API.App(this);
@@ -152,10 +138,6 @@ export class Identety extends Core.APIClient {
       ...super.defaultHeaders(opts),
       ...this._options.defaultHeaders,
     };
-  }
-
-  protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
-    return { 'x-api-key': this.apiKey };
   }
 
   static Identety = this;
