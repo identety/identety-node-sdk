@@ -3,7 +3,10 @@
 import Identety from 'identety';
 import { Response } from 'node-fetch';
 
-const client = new Identety({ baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010' });
+const client = new Identety({
+  apiKey: 'My API Key',
+  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+});
 
 describe('resource app', () => {
   test('retrieve', async () => {
