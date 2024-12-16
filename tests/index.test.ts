@@ -23,6 +23,7 @@ describe('instantiate client', () => {
     const client = new Identety({
       baseURL: 'http://localhost:5000/',
       defaultHeaders: { 'X-My-Default-Header': '2' },
+      apiKey: 'My API Key',
     });
 
     test('they are used in the request', () => {
@@ -51,7 +52,11 @@ describe('instantiate client', () => {
 
   describe('defaultQuery', () => {
     test('with null query params given', () => {
-      const client = new Identety({ baseURL: 'http://localhost:5000/', defaultQuery: { apiVersion: 'foo' } });
+      const client = new Identety({
+        baseURL: 'http://localhost:5000/',
+        defaultQuery: { apiVersion: 'foo' },
+        apiKey: 'My API Key',
+      });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo');
     });
 
@@ -59,12 +64,17 @@ describe('instantiate client', () => {
       const client = new Identety({
         baseURL: 'http://localhost:5000/',
         defaultQuery: { apiVersion: 'foo', hello: 'world' },
+        apiKey: 'My API Key',
       });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/foo?apiVersion=foo&hello=world');
     });
 
     test('overriding with `undefined`', () => {
-      const client = new Identety({ baseURL: 'http://localhost:5000/', defaultQuery: { hello: 'world' } });
+      const client = new Identety({
+        baseURL: 'http://localhost:5000/',
+        defaultQuery: { hello: 'world' },
+        apiKey: 'My API Key',
+      });
       expect(client.buildURL('/foo', { hello: undefined })).toEqual('http://localhost:5000/foo');
     });
   });
@@ -72,6 +82,7 @@ describe('instantiate client', () => {
   test('custom fetch', async () => {
     const client = new Identety({
       baseURL: 'http://localhost:5000/',
+      apiKey: 'My API Key',
       fetch: (url) => {
         return Promise.resolve(
           new Response(JSON.stringify({ url, custom: true }), {
@@ -88,6 +99,7 @@ describe('instantiate client', () => {
   test('custom signal', async () => {
     const client = new Identety({
       baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
+      apiKey: 'My API Key',
       fetch: (...args) => {
         return new Promise((resolve, reject) =>
           setTimeout(
@@ -112,12 +124,12 @@ describe('instantiate client', () => {
 
   describe('baseUrl', () => {
     test('trailing slash', () => {
-      const client = new Identety({ baseURL: 'http://localhost:5000/custom/path/' });
+      const client = new Identety({ baseURL: 'http://localhost:5000/custom/path/', apiKey: 'My API Key' });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
     test('no trailing slash', () => {
-      const client = new Identety({ baseURL: 'http://localhost:5000/custom/path' });
+      const client = new Identety({ baseURL: 'http://localhost:5000/custom/path', apiKey: 'My API Key' });
       expect(client.buildURL('/foo', null)).toEqual('http://localhost:5000/custom/path/foo');
     });
 
@@ -126,41 +138,55 @@ describe('instantiate client', () => {
     });
 
     test('explicit option', () => {
-      const client = new Identety({ baseURL: 'https://example.com' });
+      const client = new Identety({ baseURL: 'https://example.com', apiKey: 'My API Key' });
       expect(client.baseURL).toEqual('https://example.com');
     });
 
     test('env variable', () => {
       process.env['IDENTETY_BASE_URL'] = 'https://example.com/from_env';
-      const client = new Identety({});
+      const client = new Identety({ apiKey: 'My API Key' });
       expect(client.baseURL).toEqual('https://example.com/from_env');
     });
 
     test('empty env variable', () => {
       process.env['IDENTETY_BASE_URL'] = ''; // empty
-      const client = new Identety({});
+      const client = new Identety({ apiKey: 'My API Key' });
       expect(client.baseURL).toEqual(undefined);
     });
 
     test('blank env variable', () => {
       process.env['IDENTETY_BASE_URL'] = '  '; // blank
-      const client = new Identety({});
+      const client = new Identety({ apiKey: 'My API Key' });
       expect(client.baseURL).toEqual(undefined);
     });
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Identety({ maxRetries: 20 });
-    expect(client.maxRetries).toEqual(20);
+    const client = new Identety({ maxRetries: 4, apiKey: 'My API Key' });
+    expect(client.maxRetries).toEqual(4);
 
     // default
-    const client2 = new Identety({});
-    expect(client2.maxRetries).toEqual(10);
+    const client2 = new Identety({ apiKey: 'My API Key' });
+    expect(client2.maxRetries).toEqual(2);
+  });
+
+  test('with environment variable arguments', () => {
+    // set options via env var
+    process.env['X_API_KEY'] = 'My API Key';
+    const client = new Identety();
+    expect(client.apiKey).toBe('My API Key');
+  });
+
+  test('with overriden environment variable arguments', () => {
+    // set options via env var
+    process.env['X_API_KEY'] = 'another My API Key';
+    const client = new Identety({ apiKey: 'My API Key' });
+    expect(client.apiKey).toBe('My API Key');
   });
 });
 
 describe('request building', () => {
-  const client = new Identety({});
+  const client = new Identety({ apiKey: 'My API Key' });
 
   describe('Content-Length', () => {
     test('handles multi-byte characters', () => {
@@ -202,7 +228,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Identety({ timeout: 10, fetch: testFetch });
+    const client = new Identety({ apiKey: 'My API Key', timeout: 10, fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -232,7 +258,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Identety({ fetch: testFetch, maxRetries: 4 });
+    const client = new Identety({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
 
@@ -256,7 +282,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Identety({ fetch: testFetch, maxRetries: 4 });
+    const client = new Identety({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
 
     expect(
       await client.request({
@@ -286,6 +312,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
     const client = new Identety({
+      apiKey: 'My API Key',
       fetch: testFetch,
       maxRetries: 4,
       defaultHeaders: { 'X-Stainless-Retry-Count': null },
@@ -317,7 +344,7 @@ describe('retries', () => {
       capturedRequest = init;
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
-    const client = new Identety({ fetch: testFetch, maxRetries: 4 });
+    const client = new Identety({ apiKey: 'My API Key', fetch: testFetch, maxRetries: 4 });
 
     expect(
       await client.request({
@@ -344,7 +371,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Identety({ fetch: testFetch });
+    const client = new Identety({ apiKey: 'My API Key', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -371,7 +398,7 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Identety({ fetch: testFetch });
+    const client = new Identety({ apiKey: 'My API Key', fetch: testFetch });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
