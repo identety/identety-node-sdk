@@ -162,12 +162,12 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Identety({ maxRetries: 4, apiKey: 'My API Key' });
-    expect(client.maxRetries).toEqual(4);
+    const client = new Identety({ maxRetries: 20, apiKey: 'My API Key' });
+    expect(client.maxRetries).toEqual(20);
 
     // default
     const client2 = new Identety({ apiKey: 'My API Key' });
-    expect(client2.maxRetries).toEqual(2);
+    expect(client2.maxRetries).toEqual(10);
   });
 });
 
