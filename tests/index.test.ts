@@ -150,12 +150,12 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Identety({ maxRetries: 4 });
-    expect(client.maxRetries).toEqual(4);
+    const client = new Identety({ maxRetries: 20 });
+    expect(client.maxRetries).toEqual(20);
 
     // default
     const client2 = new Identety({});
-    expect(client2.maxRetries).toEqual(2);
+    expect(client2.maxRetries).toEqual(10);
   });
 });
 
