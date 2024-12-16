@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.9 (2024-12-16)
+
+Full Changelog: [v0.1.0-alpha.8...v0.1.0-alpha.9](https://github.com/identety/identety-node-sdk/compare/v0.1.0-alpha.8...v0.1.0-alpha.9)
+
+### Features
+
+* **api:** manual updates ([#39](https://github.com/identety/identety-node-sdk/issues/39)) ([187aa67](https://github.com/identety/identety-node-sdk/commit/187aa6743b88ef9de5b9662954f5013cad802c15))
+
 ## 0.1.0-alpha.8 (2024-12-16)
 
 Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/identety/identety-node-sdk/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
