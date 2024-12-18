@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.11 (2024-12-18)
+
+Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/identety/identety-node-sdk/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)
+
+### Chores
+
+* **internal:** fix some typos ([#48](https://github.com/identety/identety-node-sdk/issues/48)) ([11f1b28](https://github.com/identety/identety-node-sdk/commit/11f1b2887bbc0f6ddec77959296b38c4f3ab6893))
+
 ## 0.1.0-alpha.10 (2024-12-16)
 
 Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha.10](https://github.com/identety/identety-node-sdk/compare/v0.1.0-alpha.9...v0.1.0-alpha.10)
