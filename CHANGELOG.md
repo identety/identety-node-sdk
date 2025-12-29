@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.0-alpha.11 (2025-02-14)
+
+Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/identety/identety-node-sdk/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)
+
+### Bug Fixes
+
+* **client:** fix export map for index exports ([#55](https://github.com/identety/identety-node-sdk/issues/55)) ([64d6ea1](https://github.com/identety/identety-node-sdk/commit/64d6ea18dea65e791eeb488ccfae654359e784c6))
+* **client:** normalize method ([#50](https://github.com/identety/identety-node-sdk/issues/50)) ([4b03f16](https://github.com/identety/identety-node-sdk/commit/4b03f161cc751990fdfa9b6ead24b9331dc8381d))
+
+
+### Chores
+
+* **internal:** codegen related update ([#51](https://github.com/identety/identety-node-sdk/issues/51)) ([4f72bad](https://github.com/identety/identety-node-sdk/commit/4f72bad9ab2d81724e129436783fa98da5b9da74))
+* **internal:** codegen related update ([#52](https://github.com/identety/identety-node-sdk/issues/52)) ([c4b384d](https://github.com/identety/identety-node-sdk/commit/c4b384d36df99362ba3c7080a5fb77b7a4a658b8))
+* **internal:** codegen related update ([#53](https://github.com/identety/identety-node-sdk/issues/53)) ([fb7f7db](https://github.com/identety/identety-node-sdk/commit/fb7f7db51bfb86eb3782e30b3dd3596faf6197f9))
+* **internal:** codegen related update ([#54](https://github.com/identety/identety-node-sdk/issues/54)) ([5666134](https://github.com/identety/identety-node-sdk/commit/5666134b4f634d7705ac4930f18284637122dc60))
+* **internal:** fix some typos ([#48](https://github.com/identety/identety-node-sdk/issues/48)) ([11f1b28](https://github.com/identety/identety-node-sdk/commit/11f1b2887bbc0f6ddec77959296b38c4f3ab6893))
+
 ## 0.1.0-alpha.10 (2024-12-16)
 
 Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha.10](https://github.com/identety/identety-node-sdk/compare/v0.1.0-alpha.9...v0.1.0-alpha.10)
